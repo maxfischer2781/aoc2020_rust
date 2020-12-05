@@ -5,8 +5,10 @@ use crate::utility::parse_file_lines;
 
 pub fn solve() -> Result<(), Error> {
     let values: Vec<PolicyPassword> = parse_file_lines("data/day2_2/input.txt")?;
-    let valid = values.iter().filter(|p| p.in_range()).count();
-    println!("Valid count {}", valid);
+    let range_count = values.iter().filter(|p| p.in_range()).count();
+    let index_count = values.iter().filter(|p| p.in_position()).count();
+    println!("Range count {}", range_count);
+    println!("Index count {}", index_count);
     Ok(())
 }
 
@@ -22,6 +24,11 @@ impl PolicyPassword {
     fn in_range(&self) -> bool {
         let count = self.password.matches(&self.symbol).count();
         self.min <= count && count <= self.max
+    }
+
+    fn in_position(&self) -> bool {
+        let password_chars: Vec<char> = self.password.chars().collect();
+        (String::from(password_chars[self.min - 1]) == self.symbol) ^ (String::from(password_chars[self.max - 1]) as String == self.symbol)
     }
 }
 
