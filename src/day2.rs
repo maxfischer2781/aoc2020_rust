@@ -21,11 +21,13 @@ struct PolicyPassword {
 }
 
 impl PolicyPassword {
+    /// Whether `symbol` appears between `min` and `max` times
     fn in_range(&self) -> bool {
         let count = self.password.matches(&self.symbol).count();
         self.min <= count && count <= self.max
     }
 
+    /// Whether `symbol` appears either at the `min`'th or `max`'th position
     fn in_position(&self) -> bool {
         let password_chars: Vec<char> = self.password.chars().collect();
         (String::from(password_chars[self.min - 1]) == self.symbol) ^ (String::from(password_chars[self.max - 1]) == self.symbol)
