@@ -4,7 +4,7 @@ use std::str::{FromStr};
 use std::fmt::{Debug};
 
 pub fn solve() -> Result<(), Error> {
-    let f = File::open("data/day1_1/input.txt")?;
+    let f = File::open("data/day1.txt")?;
     let values: Vec<i32> = read(BufReader::new(f))?;
     match search_double(&values, 2020) {
         Some(x) => {

@@ -4,7 +4,7 @@ use std::io::Error;
 use crate::utility::parse_file_lines;
 
 pub fn solve() -> Result<(), Error> {
-    let values: Vec<PolicyPassword> = parse_file_lines("data/day2_2/input.txt")?;
+    let values: Vec<PolicyPassword> = parse_file_lines("data/day2.txt")?;
     let range_count = values.iter().filter(|p| p.in_range()).count();
     let index_count = values.iter().filter(|p| p.in_position()).count();
     println!("Range count {}", range_count);
