@@ -28,7 +28,7 @@ impl PolicyPassword {
 
     fn in_position(&self) -> bool {
         let password_chars: Vec<char> = self.password.chars().collect();
-        (String::from(password_chars[self.min - 1]) == self.symbol) ^ (String::from(password_chars[self.max - 1]) as String == self.symbol)
+        (String::from(password_chars[self.min - 1]) == self.symbol) ^ (String::from(password_chars[self.max - 1]) == self.symbol)
     }
 }
 
