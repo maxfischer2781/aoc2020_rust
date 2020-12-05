@@ -6,10 +6,6 @@ use crate::utility::parse_file_lines;
 
 pub fn solve() -> Result<(), Error> {
     let values: Vec<PolicyPassword> = parse_file_lines("data/day2_2/input.txt")?;
-    for pw in &values {
-        println!("{:?} ({}) ", pw, pw.is_valid());
-        println!("{}", pw.password.matches(&pw.symbol).count())
-    }
     let valid = values.iter().filter(|p| p.is_valid()).count();
     println!("Valid count {}", valid);
     Ok(())
