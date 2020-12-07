@@ -17,3 +17,10 @@ pub fn parse_file_lines<T: FromStr>(path: &str) -> Result<Vec<T>, Error> where <
     let values: Vec<T> = parse_lines(BufReader::new(f))?;
     Ok(values)
 }
+
+pub fn partition(s: &str, by: &str) -> (String, Option<String>) {
+    match s.find(&by) {
+        Some(i) => (String::from(&s[..i]), Some(String::from(&s[i + by.len()..]))),
+        None => (String::from(s), None),
+    }
+}
