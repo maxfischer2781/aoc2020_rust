@@ -11,7 +11,7 @@ pub fn solve() -> Result<(), Error> {
     let contained: BagContained = bag_specs.iter().cloned().collect();
     println!("{}", contained.count_leaves(String::from("shiny gold")));
     let containing: BagContaining = bag_specs.iter().cloned().collect();
-    println!("{}", containing.sum_contained(String::from("shiny gold")));
+    println!("{}", containing.total_contained(&String::from("shiny gold")) - 1);
     Ok(())
 }
 
@@ -64,17 +64,13 @@ impl FromIterator<BagSpec> for BagContaining {
 }
 
 impl BagContaining {
-    fn sum_collect_contained(&self, root: &String) -> usize {
+    fn total_contained(&self, root: &String) -> usize {
         match self.0.get(root) {
-            Some(nodes) => 1usize + nodes.constituents.iter().map(
-                |(count, color)| count * self.sum_collect_contained(color)
+            Some(bag_spec) => 1usize + bag_spec.constituents.iter().map(
+                |(count, color)| count * self.total_contained(color)
             ).sum::<usize>(),
             None => 1,
         }
-    }
-
-    fn sum_contained(&self, root: String) -> usize {
-        self.sum_collect_contained(&root) - 1
     }
 }
 
