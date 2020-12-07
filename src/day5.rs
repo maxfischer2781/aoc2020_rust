@@ -40,7 +40,7 @@ impl FromStr for Seat {
             |(index, fb)| if fb == 'B' {2i16.pow(6 - index)} else {0}
         ).sum::<i16>();
         let column = (0..).zip(s.chars().skip(7).take(3)).map(
-            |(index, fb)| if fb == 'R' {2i16.pow(2 - index)} else {0}
+            |(index, lr)| if lr == 'R' {2i16.pow(2 - index)} else {0}
         ).sum::<i16>();
         Ok(Seat {row, column})
     }
