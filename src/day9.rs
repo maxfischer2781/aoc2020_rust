@@ -15,6 +15,17 @@ pub fn solve() -> Result<(), Error> {
     Ok(())
 }
 
+/*
+Both problems ("item not the sum of previous 25 items" and "items with sum of outlier")
+come down to finding a consecutive window in the input series. Thus, the core of both
+solutions is a sliding window, growing for each new item and removing the oldest item(s).
+
+In general, the approach is "add new, pop until condition". In the first case, that condition
+is "``window.len() == window_size``" aka we always pop for each push. In the second case, that
+condition is "``window.sum() <= total``"; this means remove elements until adding any element
+might solve the problem.
+*/
+
 
 fn find_nonsum(series: &Vec<i64>, window_size: usize) -> Option<i64> {
     let mut window: VecDeque<i64> = series.iter().take(window_size).cloned().collect();
