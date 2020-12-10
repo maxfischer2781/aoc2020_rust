@@ -6,7 +6,7 @@ use crate::utility::parse_file_lines;
 
 pub fn solve() -> Result<(), Error> {
     let connectors: Vec<i64> = parse_file_lines("data/day10.txt")?;
-    let steps = shortest_steps(connectors.clone());
+    let steps = shortest_steps(connectors);
     let step_counts = count(&steps);
     println!("Differences {}", step_counts.0 * step_counts.1);
     println!("Variations {}", variations(&steps));
@@ -44,21 +44,21 @@ fn count(steps: &Vec<i64>) -> (i64, i64) {
 // variations of the remainder.
 fn variations(steps: &Vec<i64>) -> i64 {
     // variations for a given length. cost[3] => Cost of 111
-    let mut cost = vec![1, 1, 2, 4];
+    let mut cache = vec![1, 1, 2, 4];
     let mut total = 1;
-    // indices of 3-steps
+    // positions of 3-steps
     let starts: Vec<_> = steps.iter().enumerate().filter(
         |(_, &delta)| delta == 3
-    ).map(|(i, _)| i).collect();
+    ).map(|(i, _)| i + 1).collect();
     for (prev_i, curr_i) in once(&0).chain(&starts).zip(&starts) {
-        let length = if prev_i == &0usize {*curr_i} else {curr_i - prev_i - 1};
-        total *= match cost.get(length) {
+        let length = curr_i - prev_i - 1;
+        total *= match cache.get(length) {
             Some(x) => x,
             None => {
-                for sub_length in cost.len()..length+1 {
-                    cost.push(2 * cost[sub_length-1] + cost[sub_length-2] + cost[sub_length-3])
+                for sub_length in cache.len()..length+1 {
+                    cache.push(cache[sub_length-1] + cache[sub_length-2] + cache[sub_length-3])
                 };
-                &cost[length]
+                &cache[length]
             }
         };
     }
