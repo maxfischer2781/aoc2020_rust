@@ -45,22 +45,15 @@ fn count(steps: &Vec<i64>) -> (i64, i64) {
 fn variations(steps: &Vec<i64>) -> i64 {
     // variations for a given length. cost[3] => Cost of 111
     let mut cache = vec![1, 1, 2, 4];
-    let mut total = 1;
     // positions of 3-steps
     let starts: Vec<_> = steps.iter().enumerate().filter(
         |(_, &delta)| delta == 3
     ).map(|(i, _)| i + 1).collect();
-    for (prev_i, curr_i) in once(&0).chain(&starts).zip(&starts) {
-        let length = curr_i - prev_i - 1;
-        total *= match cache.get(length) {
-            Some(x) => x,
-            None => {
-                for sub_length in cache.len()..length+1 {
-                    cache.push(cache[sub_length-1] + cache[sub_length-2] + cache[sub_length-3])
-                };
-                &cache[length]
-            }
-        };
+    let lengths: Vec<_> = once(&0).chain(&starts).zip(&starts).map(
+        |(prev_i, curr_i)| curr_i - prev_i - 1
+    ).collect();
+    for length in cache.len()..*lengths.iter().max().unwrap() + 1 {
+        cache.push(cache[length-1] + cache[length-2] + cache[length-3]);
     }
-    total
+    lengths.iter().map(|&length| cache[length]).product()
 }
