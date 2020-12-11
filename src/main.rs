@@ -13,6 +13,7 @@ mod day7;
 mod day8;
 mod day9;
 mod day10;
+mod day11;
 
 
 /// Format a duration nicely
@@ -39,7 +40,7 @@ fn run_solver(solver: fn() -> Result<(), Error>) -> Result<(), Error> {
 }
 
 fn main() -> Result<(), Error> {
-    let default_day = String::from("10");
+    let default_day = String::from("11");
     let arguments: Vec<String> = env::args().collect();
     let solver = match arguments.get(1).unwrap_or(&default_day).as_str() {
         "1" => day1::solve,
@@ -52,6 +53,7 @@ fn main() -> Result<(), Error> {
         "8" => day8::solve,
         "9" => day9::solve,
         "10" => day10::solve,
+        "11" => day11::solve,
         x => panic!("Unknown Exercise {}", x)
     };
     run_solver(solver)?;
